@@ -23,9 +23,8 @@ public class ClientHandler extends Thread {
     static ObjectInputStream din;
     static Scanner s;
 
-    public ClientHandler(Socket clientSocket, ArrayList<ClientHandler> clients) throws IOException {
+    public ClientHandler(Socket clientSocket) throws IOException {
         this.client = clientSocket;
-        this.clients = clients;
         fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
         toclient = new PrintWriter(client.getOutputStream(), true);
 
@@ -205,20 +204,9 @@ public class ClientHandler extends Thread {
                 }
 
             } while (option != 5);
-
-        } catch (IOException e) {
-            System.err.println("IO Exception in Client Handler");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Class Not Found Exception in Client Handler");
+            client.close();
         } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            toclient.close();
-            try {
-                client.close();
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+            System.err.println(e.getMessage());
         }
 
     }

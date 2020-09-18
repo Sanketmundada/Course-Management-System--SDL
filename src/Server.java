@@ -5,6 +5,8 @@ import java.io.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
+
 public class Server {
     static Socket soc;
     static BufferedReader bf;
@@ -24,9 +26,9 @@ public class Server {
         }
     }
 
-    public static void main(String args[]) throws ClassNotFoundException, IOException {
-        Integer i = 0;
-        while (i < 4) {
+    public static void main(String args[]) throws Exception {
+        
+        while (true) {
             System.out.println("[SERVER]: waiting for Client...");
 
             System.out.println("Server has reserved port no : " + ss.getLocalPort() + " for this service.");
@@ -34,18 +36,16 @@ public class Server {
             // Confirming arrival of client
             soc = ss.accept();
             System.out.println("Client " + soc.getInetAddress() + " is communicating from PORT " + soc.getPort());
-            // ClientHandler clientThread = new ClientHandler(soc, clients);
+            ClientHandler clientThread = new ClientHandler(soc);
 
-            // pool.execute(clientThread);
+            pool.execute(clientThread);
             // create a new thread object
-            Thread t = new ClientHandler(soc, clients);
+            // Thread t = new ClientHandler(soc);
 
             // Invoking the start() method
-            t.start();
+            // t.start();
             // clients.add(t);
-            i++;
+
         }
-        // soc.close();
-        // ss.close();
     }
 }

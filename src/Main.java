@@ -1,8 +1,11 @@
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Scanner;
 import java.util.Vector;
+import java.sql.*;
 
 public class Main implements Serializable {
 
@@ -26,6 +29,7 @@ public class Main implements Serializable {
     private int noOfLearners;
 
     public Main() {
+
         allAdmins.put(adminIdCount, new Admin(adminIdCount++, "admin", "sanket", "mundada", "s@gmail.com", "qwerty"));
         allUsers.put(userCount, new User(userCount++, "sanmun", "sanket", "mundada", "a@gmail.com", "123456"));
         allInstructors.put(instructorIdCount,
@@ -55,20 +59,29 @@ public class Main implements Serializable {
 
     }
 
-    public Boolean check_signup() {
+    public Boolean check_signup() throws Exception {
         Boolean valid = false;
+        // Register for JDBC Driver
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        // Open a connection
+        Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sdl", "root",
+                "scm@2000");
 
-        Vector<User> users = new Vector<User>(allUsers.values());
-        System.out.println(users);
-        for (int i = 0; i < users.size() && !valid; i++) {
-            User user = users.get(i);
-            valid = (user.getUserName().equals(username));
-        }
+        Statement stmt = con.createStatement();
+
+        ResultSet st = stmt.executeQuery("select * from user where user_name = " + "'" + username + "';");
+        while(st.next()) 
+        	valid=true;
 
         if (valid)
             return false;
         allUsers.put(userCount, new User(userCount++, username, firstName, lastName, mailId, password));
+        stmt.executeUpdate("INSERT INTO user VALUES ( DEFAULT," + "'" + firstName + "'," + "'" + lastName + "'," + "'" + mailId + "'," +"'" + username + "'," + "'" + password + "');");
         return true;
+        
+    
+       
+        
     }
 
     public Boolean check_signup_Instructor() {
