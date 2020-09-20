@@ -80,20 +80,47 @@ public class Client {
                                                 "1. Course-List\n2. Profile\n3. My-Courses\n4. Buy a Course\n5.Exit");
                                         choice2 = s.nextInt();
                                         toserver.println(choice2);
-
+                                        User user;
                                         switch (choice2) {
                                             case 1:
                                                 CourseList CourseListObj = (CourseList) din.readObject();
-                                                CourseListObj.DisplayCourses();
+                                                try {
+                                                    CourseListObj.DisplayCourses();
+                                                    }catch(Exception e) {
+                                                    	System.out.println(e.getMessage());
+                                                    }
                                                 System.out.println("___________________________");
                                                 break;
                                             case 2:
-                                                User user = (User) din.readObject();
+                                                user = (User) din.readObject();
                                                 System.out.println(user.getFirstName());
                                                 System.out.println(user.getLastName());
                                                 System.out.println(user.getUserName());
                                                 System.out.println("____________________________");
                                                 break;
+                                            case 3:
+                                            	 user = (User) din.readObject();
+                                            	 System.out.println("**********My Courses*************");
+                                            	 Main newobj2=new Main();
+                                            	 int us_id=user.getId();
+                                            	 try {
+                                            	 newobj2.my_courses(us_id);
+                                            	 }catch( Exception e ) {
+                                            		 System.out.println(e.getMessage());
+                                            	 }
+                                            	 break;
+                                            case 4:
+                                            	 user = (User) din.readObject();
+                                            	 System.out.println("Enter the course-Id of the course to be purchased : ");
+                                            	 int id=s.nextInt();
+                                            	 int u_id=user.getId();
+                                            	 Main newobj1=new Main();
+                                            	 try {
+                                            	 newobj1.buy_course(id,u_id);
+                                            	 }catch( Exception e ) {
+                                            		 System.out.println(e.getMessage());
+                                            	 }
+                                            	 break;
                                             default:
                                                 break;
                                         }
@@ -144,14 +171,18 @@ public class Client {
                                     int choice2;
                                     do {
                                         System.out.println(
-                                                "1. Course-List\n2. Profile\n3. My-Courses\n4. Buy a Course\n5.Exit");
+                                                "1. Course-List\n2. Profile\n5.Exit");
                                         choice2 = s.nextInt();
                                         toserver.println(choice2);
 
                                         switch (choice2) {
                                             case 1:
                                                 CourseList CourseListObj = (CourseList) din.readObject();
+                                                try {
                                                 CourseListObj.DisplayCourses();
+                                                }catch(Exception e) {
+                                                	System.out.println(e.getMessage());
+                                                }
                                                 break;
                                             default:
                                                 break;
@@ -176,15 +207,13 @@ public class Client {
 
                     do {
 
-                        System.out.println("1. Sign-Up \n2. Login \n3. Exit");
+                        System.out.println("\n1. Login \n3. Exit");
                         choicea = s.nextInt();
 
                         toserver.println(choicea);
 
                         switch (choicea) {
                             case 1:
-                                break;
-                            case 2:
                                 AdminLogin adminLogin = new AdminLogin();
                                 Admin admin;
                                 adminLogin.getLoginCredentials();
@@ -199,18 +228,28 @@ public class Client {
                                 } else {
                                     System.out.println(response);
                                     int choicen;
-
+                                    Main objnew = new Main();
                                     do {
 
                                         System.out.println(
                                                 "1. Add Course \n2. Delete Course \n3.Display Profile \n4. Exit");
                                         choicen = s.nextInt();
-
-                                        switch (choicen) {
+                                        toserver.println(choicen);
+                                        switch (choicen){
                                             case 1:
-                                                Main objnew = new Main();
+                                                try {
                                                 objnew.add_course();
+                                                }catch(Exception e) {
+                                                	System.out.println(e.getMessage());
+                                                }
                                                 break;
+                                            case 2:
+                                            	 try {
+                                                     objnew.delete_course();
+                                            	 }catch(Exception e) {
+                                                     	System.out.println(e.getMessage());
+                                                 }
+                                            	 break;
                                             default:
                                                 break;
                                         }

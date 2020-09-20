@@ -35,8 +35,4 @@ public class Admin implements Serializable {
         return id;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
 }

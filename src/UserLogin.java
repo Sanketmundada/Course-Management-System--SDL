@@ -28,7 +28,7 @@ public class UserLogin extends Main implements Serializable {
                 "scm@2000");
         Statement stmt = con.createStatement();
 
-        ResultSet st = stmt.executeQuery("select * from user where user_name = " + "'" + username + "' AND password = " + "'" + password +"';");
+        ResultSet st = stmt.executeQuery("select * from user where user_name = " + "'" + userName + "' AND password = " + "'" + password +"';");
         while(st.next()) 
         	{
         		valid=true;
@@ -43,6 +43,7 @@ public class UserLogin extends Main implements Serializable {
 //                currentUser = user;
 //            }
 //        }
+        System.out.println(valid);
         return valid;
     }
 

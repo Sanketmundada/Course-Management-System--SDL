@@ -36,15 +36,9 @@ public class Server {
             // Confirming arrival of client
             soc = ss.accept();
             System.out.println("Client " + soc.getInetAddress() + " is communicating from PORT " + soc.getPort());
-            ClientHandler clientThread = new ClientHandler(soc);
-
+            ClientHandler clientThread = new ClientHandler(soc,clients);
+            clients.add(clientThread);
             pool.execute(clientThread);
-            // create a new thread object
-            // Thread t = new ClientHandler(soc);
-
-            // Invoking the start() method
-            // t.start();
-            // clients.add(t);
 
         }
     }

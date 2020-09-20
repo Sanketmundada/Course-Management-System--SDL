@@ -3,15 +3,13 @@ import java.util.*;
 public class Course {
     private int courseId;
     private String CourseName;
-    private String InstructorName;
-    // private Calendar dateOfPublish;
+    private int instructorId;
     private int noOfLearners;
 
-    public Course(int courseId, String CourseName, String InstructorName) {
+    public Course(int courseId, String CourseName, int instructorId) {
         this.courseId = courseId;
         this.CourseName = CourseName;
-        this.InstructorName = InstructorName;
-        // this.dateOfPublish = dateOfPublish;
+        this.instructorId = instructorId;
         this.noOfLearners = 0;
     }
 
@@ -23,12 +21,8 @@ public class Course {
         return CourseName;
     }
 
-    // public Calendar getdateOfPublish() {
-    // return dateOfPublish;
-    // }
-
-    public String getCourseIdInstructorName() {
-        return InstructorName;
+    public Integer getInstructorId() {
+        return instructorId;
     }
 
     public int getnoOfLearners() {

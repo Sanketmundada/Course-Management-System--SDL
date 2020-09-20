@@ -23,8 +23,9 @@ public class ClientHandler extends Thread {
     static ObjectInputStream din;
     static Scanner s;
 
-    public ClientHandler(Socket clientSocket) throws IOException {
+    public ClientHandler(Socket clientSocket, ArrayList<ClientHandler>clients) throws IOException {
         this.client = clientSocket;
+        this.clients=clients;
         fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
         toclient = new PrintWriter(client.getOutputStream(), true);
 
@@ -100,9 +101,11 @@ public class ClientHandler extends Thread {
                                                     break;
                                                 case 3:
                                                     System.out.println("[SERVER]: MyCourses");
+                                                    dout.writeObject(user);
                                                     break;
                                                 case 4:
                                                     System.out.println("[SERVER] : Buy a Course");
+                                                    dout.writeObject(user);
                                                     break;
                                                 default:
                                                     break;
@@ -129,8 +132,9 @@ public class ClientHandler extends Thread {
                             switch (choice3) {
                                 case 1:
                                     Main obj1 = (Main) din.readObject();
-                                    boolean isRegistered = obj1.check_signup_Instructor();
                                     System.out.println("[FROM CLIENT] : " + obj1.username);
+                                    boolean isRegistered = obj1.check_signup_Instructor();
+                                   
                                     System.out.println("[SERVER] : Valid Check -> " + isRegistered);
                                     if (isRegistered) {
                                         String successMsg = "[FROM SERVER] : User Registered Successfully !!!";
@@ -140,6 +144,7 @@ public class ClientHandler extends Thread {
                                         toclient.println(errorMsg);
                                     }
                                     break;
+                                 
                                 default:
                                     break;
 
@@ -152,9 +157,8 @@ public class ClientHandler extends Thread {
                             choice5 = Integer.parseInt(fromClient.readLine());
                             System.out.println("[SERVER]: Selected Option : " + choice5);
                             switch (choice5) {
+ 
                                 case 1:
-                                    break;
-                                case 2:
                                     Main obj8 = new Main();
                                     AdminLogin adminLogin = (AdminLogin) din.readObject();
                                     Admin admin;
@@ -164,11 +168,14 @@ public class ClientHandler extends Thread {
                                         toclient.println(1);
                                         admin = adminLogin.getAdmin();
                                         toclient.println("[FROM SERVER] Welcome, " + admin.getFirstName());
+                                        int choicen;
+                                        do {
+                                        	choicen=Integer.parseInt(fromClient.readLine());
+                                        }while(choicen!=4);
                                     } else {
                                         toclient.println(0);
                                         toclient.println("Error in Login!");
                                     }
-
                                     break;
                                 default:
                                     break;
